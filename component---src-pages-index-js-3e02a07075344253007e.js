@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkudayan853_github_io=self.webpackChunkudayan853_github_io||[]).push([[678],{6558:function(n,e,t){t.r(e),t.d(e,{default:function(){return r}});var u=t(7294);function r(){return u.createElement("div",null,u.createElement("h1",null,"Site Under Construction🚧 ",u.createElement("br",null),"Coming Soon!!!😁"))}}}]);
+//# sourceMappingURL=component---src-pages-index-js-3e02a07075344253007e.js.map
