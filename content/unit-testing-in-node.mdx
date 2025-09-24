@@ -1,0 +1,148 @@
+---
+title: "Unit testing using `node:test`"
+publishedAt: "2025-09-22"
+summary: "Step by step guide to writing unit tests"
+tags: "Backend, Development, Scalable, Unit, Tests, Node, Guide"
+--- 
+
+<Image
+  src="/units.jpg"
+  alt="OpenGraph image"
+  width={640}
+  height={500}
+/>
+
+New to coding? Then you’ve probably come across TDD, or Test Driven Development. You might be asking yourself: What is TDD? How is a Unit test different from an Integration or End-to-End test? How do I even write tests? It’s easy to get overwhelmed.
+
+Through this blog, I aim to clear all of these doubts and hopefully help _**you**_ become a better developer.
+
+# Introduction
+
+When anyone begins a journey as a programmer, their first code ever generally looks something like this
+
+```js
+console.log('hello, world')
+```
+
+What happens when you write this? You run it and see if hello, world appears. That’s testing !
+
+Now, to proceed lets create a scenario to help clear the concepts 
+
+# Scenario
+
+Imagine you are building a simple calculator app. You want to implement a function **add(a, b)** that takes two numbers and returns their sum.
+
+```js
+function add(a, b) {
+    return a + b;
+}
+
+console.log(add(2,3))
+```
+```node
+5
+```
+
+Now, how do you know this function works correctly every time? You write a test for it.
+
+# Unit Testing
+
+Unit tests are tests that check the smallest units of code in isolation, usually a single function or class. In our example, testing the add function is a unit test.
+
+Using Node.js's built-in **node:test** module, a basic unit test looks like this
+
+```js
+// calculater.test.js
+import { test } from 'node:test';
+import assert from 'node:assert';
+
+function add(a, b) {
+    return a + b;
+}
+
+test('adds two numbers', () => {
+    assert.strictEqual(add(2, 3), 5);
+    assert.strictEqual(add(-1, 1), 0);
+});
+```
+To run this use `node --test`, node automatically looks for `*.test.js` files in the project directory recursively and executes them
+```node
+✔ adds two numbers (1.18648ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 119.242432
+```
+
+Here, **assert.strictEqual** checks if the result of add matches the expected value. If not, the test fails.
+
+# Integration Testing
+
+Integration tests check how multiple units work together. For instance, if your calculator app also has a subtract function, you might want to test if a combined operation works correctly.
+
+```js
+// main.js
+export function add(a, b){
+    return a + b
+}
+
+export function subtract(a, b){
+    return a - b
+}
+
+export function calculate(a, b){
+    return add(a, b) + subtract(a, b)
+}
+```
+```js
+// main.test.js
+import { calculate } from "./main.js"
+import { test } from "node:test"
+import assert from "node:assert"
+
+test("calculator integration", () => {
+    assert.strictEqual(calculate(5, 3), (5 + 3) + (5 - 3));
+})
+```
+```node
+✔ calculator integration (1.189682ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 119.633238
+```
+
+# End-to-End Testing
+
+End-to-End (E2E) tests check the full flow of the application from start to finish. For example, verifying that a user can input numbers in the calculator UI and get the correct result on the screen.
+
+# Test-Driven Development (TDD)
+
+TDD is a methodology where you write tests before writing the actual code. The cycle is simple:
+
+Write a failing test --> Write just enough pass the test --> Refactor --> Repeat
+
+The benefit of TDD is that it ensures your code is always tested and helps you think about requirements before implementation.
+
+# How to Write Good Tests
+
+- **Keep them small**: Test one thing at a time.
+- **Clear naming**: The test name should describe exactly what it checks.
+- **Automate**: Use a test runner like node:test so tests can be run automatically.
+- **Avoid external dependencies**: Especially for unit tests, keep them isolated.
+
+# Conclusion
+
+Testing is a crucial part of building reliable software. A great place to start is with unit tests, using tools like `node:test`. From there, you can explore **integration tests**, **end-to-end (E2E) tests**, and even adopt **Test-Driven Development (TDD)** to boost both your workflow and confidence in your code.
+
+By learning these techniques and practicing consistently, you'll write code that’s more robust, maintainable, and less prone to bugs.
+
+In upcoming blogs, I’ll dive deeper into testing APIs with `node:test` in Express and demonstrate how to apply a **TDD** approach effectively. Stay tuned!
